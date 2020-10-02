@@ -33,6 +33,12 @@ shift
 vmdks=$@
 vmdks_num=$#
 
+DIR=${name%/*}
+if [ -n "$DIR" ]; then
+    name=${name##*/}
+fi
+
+
 echo "Starting to create ${name}.ova of ${vmdks_num} disks with template ${ovftempl}"
 
 for vmdk in $vmdks; do
@@ -132,9 +138,16 @@ done
 # Get the sha checksum of the ovf file
 echo "SHA${sha_alg}(${name}.ovf)= $(sha${sha_alg}sum $TMPDIR/${name}.ovf | cut -d' ' -f1)" >> $TMPDIR/${name}.mf
 
+
 pushd $TMPDIR 
-tar cf ../${name}.ova *.ovf *.mf *.vmdk
+    tar cf ../${name}.ova *.ovf *.mf *.vmdk
 popd
+
+if [ -n "$DIR" ]; then
+  mv ${name}.ova ${DIR}
+fi
+
+
 
 echo "Completed to create ${name}.ova"
 

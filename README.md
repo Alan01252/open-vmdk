@@ -86,3 +86,8 @@ Here mutiple disks are only supported to be attached to one SCSI controller, and
 By default, the OVA will be created with 2 cpus and 1024 MB memory. You can also use environment variable NUM_CPUS and MEM_SIZE to change the default number of cpu and memory size.
 
 4. After `mkova.sh` completes, you would be able to see the final OVA under `$TESTSVM_PATH` folder.
+
+### Usage
+1. docker build . -t open-vmdk
+2. docker run -v ${PWD}:/tmp/ open-vmdk vmdk-convert /tmp/provisioning.vmdk /tmp/output.vmdk
+3. docker run -v ${PWD}:/tmp/ open-vmdk mkova.sh /tmp/my-ova /app/ova/template-hw10.ovf /tmp/output.vmdk
